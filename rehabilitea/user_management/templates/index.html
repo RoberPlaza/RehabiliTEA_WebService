@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<body>
+    <script src="{{url_for('static', filename='emotiv.js')}}"></script>
+
+    <label for="client-id">ClientId:</label>
+    <input style="width: 300px;" type="text" id="client-id"><br></br>
+    <label for="client-secret">ClientSecret:</label>
+    <input style="width: 500px;" type="text" id="client-secret"><br></br>
+
+    <button onclick="startConnection()">Conectar con emotiv App</button><br></br>
+
+    <label for="user-id">Id de paciente:</label>
+    <input style="width: 50px;" type="number" id="user-id">
+    <button onclick="startCollecting()">Empezar a recolectar datos</button><br></br>
+</body>

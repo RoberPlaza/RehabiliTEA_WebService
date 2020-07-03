@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+    rehabilitea:
+        build: rehabilitea
+        command: gunicorn --bind 0.0.0.0:5000 manage:app --workers=4
+        expose: 
+            - 5000
+        env_file:
+            - rehabilitea/dev.env
+        depends_on:
+            - database
+            - influxdb
+
+    database:
+        image: postgres:12-alpine
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        env_file:
+            - postgres/dev.env
+        ports:
+            - 5432:5432
+        
+    nginx:
+        build: nginx/
+        ports: 
+            - 80:80
+        depends_on:
+            - rehabilitea
+
+    influxdb:
+        image: influxdb:1.8-alpine
+        env_file: influxdb/dev.env
+        volumes:
+            - influx_data:/var/lib/influxdb
+        ports:
+            - 8086:8086
+
+    chronograf:
+        image: chronograf:1.6-alpine
+        volumes:
+            - chronograf_data:/var/lib/chronograf
+        ports:
+            - 8888:8888
+        links:
+            - influxdb
+        depends_on:
+            - influxdb
+
+
+volumes:
+    postgres_data:
+    influx_data:
+    chronograf_data:
