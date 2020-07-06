@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     rehabilitea:
-        build: rehabilitea
+        build: rehabilitea/
         command: gunicorn --bind 0.0.0.0:5000 manage:app --workers=4
         expose: 
             - 5000
