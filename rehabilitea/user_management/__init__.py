@@ -78,11 +78,8 @@ def difficulty(id, game_name):
     def post_difficulty(id, game_name):
         game = Game.query.filter_by(name=game_name).first()
 
-        if not request.json or not 'difficulty' in request.json or not game:
-            return make_response(400, jsonify(error=400, message="malformed request"))
-
-        if request.json['difficulty'] < 0 or request.json['difficulty'] > 2:
-            return make_response(401, jsonify(error=400, message="malformed request"))
+        if not request.json or not 'difficulty' in request.json or not game or request.json['difficulty'] < 0 or request.json['difficulty'] > 2:
+            return make_response(400, jsonify(error = 400, message = "malformed request"))
 
         db.session.add(Progression(user = id, game = game.id, difficulty = request.json['difficulty']))
         db.session.commit()
@@ -93,6 +90,19 @@ def difficulty(id, game_name):
         return get_difficulty(id, game_name)
     elif request.method == 'POST':
         return post_difficulty(id, game_name)
+
+@app.route("/event/<int:id>/<string:game_name>", methods = ["POST"])
+@app.route("/event/<string:game_name>/<int:id>", methods = ["POST"])
+def post_event(id, game_name):
+    game = Game.query.filter_by(name=game_name).first()
+
+    if not request.json or not 'event' in request.json or not game:
+        return make_response(400, jsonify(error = 400, message = "malformed request"))
+
+    db.session.add(Event(user = id, game = game.id, event_type = request.json['event']))
+    db.session.commit()
+
+    return jsonify(status=200)
 
 if __name__ == "__main__":
     app.run()
