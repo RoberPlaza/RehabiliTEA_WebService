@@ -15,7 +15,6 @@ def create_db():
 @cli.command("seed_db")
 def create_db():
     db.session.add(User(id = 0, birth_day = "1996/08/01"))
-    db.session.add(User(id = 1, birth_day = "1999/04/12"))
 
     db.session.add(Difficulty(id = 0, name = "Easy"))
     db.session.add(Difficulty(id = 1, name = "Medium"))
@@ -28,7 +27,6 @@ def create_db():
     db.session.commit()
 
     db.session.add(Progression(user = 0, game = 0, difficulty = 0))
-    db.session.add(Progression(user = 0, game = 0, difficulty = 1))
     db.session.add(Progression(user = 0, game = 1, difficulty = 0))
     db.session.add(Progression(user = 0, game = 2, difficulty = 0))
 
