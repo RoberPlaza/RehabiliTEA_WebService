@@ -20,7 +20,7 @@ services:
             - postgres/dev.env
         ports:
             - 5432:5432
-        
+
     nginx:
         build: nginx/
         ports: 
@@ -46,7 +46,6 @@ services:
             - influxdb
         depends_on:
             - influxdb
-
 
 volumes:
     postgres_data:
